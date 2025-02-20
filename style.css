@@ -23,3 +23,11 @@ body{
 #section1{
     width: 80%;
 }
+.botoes{
+    cursor:pointer;
+    background-color: #965fd4;
+    color:#8bd450;
+    border-radius: 5px;
+    padding: 10px;
+    
+}

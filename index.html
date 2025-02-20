@@ -20,7 +20,9 @@
     <main id="main">
         <section  id="section1">
         <h2 class="subtitulo">Lorem ipsum dolor sit amet consectetur,</h2>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro exercitationem omnis minus obcaecati natus veniam libero perspiciatis quibusdam maxime culpa sed rem aliquam fugit, ut repellendus aliquid! Doloremque nemo minima quia labore, dolore expedita itaque quo doloribus, hic totam laboriosam id, ratione error adipisci cupiditate neque placeat laborum molestiae nihil!</p>
+        <p id="paragrafo">Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro exercitationem omnis minus obcaecati natus veniam libero perspiciatis quibusdam maxime culpa sed rem aliquam fugit, ut repellendus aliquid! Doloremque nemo minima quia labore, dolore expedita itaque quo doloribus, hic totam laboriosam id, ratione error adipisci cupiditate neque placeat laborum molestiae nihil!</p>
+        <button onclick="mudarCor()" class="botoes"><b> mudar cor</b></button>
+
     </section>
     </main>
 
@@ -29,5 +31,12 @@
     <p>Autor: Henrique Mosseri</p>
     <p> 2025</p>
     </footer>
+
 </body>
+<script>
+    function mudarCor(){
+         let textElement = document.getElementById("paragrafo");
+             textElement.style.color = "red";        
+     }
+ </script>
 </html>
