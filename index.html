@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Atividade 1</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    
+
     <header>
         <h1>Bem-vindo ao site</h1>
     </header>
@@ -17,26 +19,52 @@
         <a href="">link 3</a>
     </nav>
 
-    <main id="main">
-        <section  id="section1">
-        <h2 class="subtitulo">Lorem ipsum dolor sit amet consectetur,</h2>
-        <p id="paragrafo">Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro exercitationem omnis minus obcaecati natus veniam libero perspiciatis quibusdam maxime culpa sed rem aliquam fugit, ut repellendus aliquid! Doloremque nemo minima quia labore, dolore expedita itaque quo doloribus, hic totam laboriosam id, ratione error adipisci cupiditate neque placeat laborum molestiae nihil!</p>
-        <button onclick="mudarCor()" class="botoes"><b> mudar cor</b></button>
 
-    </section>
+    <main id="main">
+        <section id="section1">
+            <h2 class="subtitulo">Lorem ipsum dolor sit amet consectetur,</h2>
+            <p id="paragrafo">Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro exercitationem omnis minus
+                obcaecati natus veniam libero perspiciatis quibusdam maxime culpa sed rem aliquam fugit, ut repellendus
+                aliquid! Doloremque nemo minima quia labore, dolore expedita itaque quo doloribus, hic totam laboriosam
+                id, ratione error adipisci cupiditate neque placeat laborum molestiae nihil!</p>
+            <button onclick="mudarCor()" class="botoes"><b> mudar cor</b></button>
+            <br>
+
+            <label for="item-lista">Insira na lista abaixo <input type="text" name="item-lista" id="item-lista"></label>
+            <button onclick="criarLista()" class="botoes">criar lista</button>
+            <ul id="lista">
+
+            </ul>
+
+        </section>
     </main>
 
-
     <footer id="footer">
-    <p>Autor: Henrique Mosseri</p>
-    <p> 2025</p>
+        <p>Autor: Henrique Mosseri</p>
+        <p> 2025</p>
     </footer>
 
 </body>
 <script>
-    function mudarCor(){
-         let textElement = document.getElementById("paragrafo");
-             textElement.style.color = "red";        
-     }
- </script>
+    removerItemLista();
+    function mudarCor() {
+        let textElement = document.getElementById("paragrafo");
+        textElement.style.color = "red";
+    }
+
+    function criarLista() {
+        let itemLista = document.getElementById("item-lista").value;
+        var item = document.createElement("li");
+        item.append(itemLista);
+        document.getElementById("lista").append(item);
+    }
+    function removerItemLista() {
+        document.getElementById("lista").addEventListener("dblclick", function (event) {
+            if (event.target.tagName === "LI") {
+                event.target.remove();
+            }
+        });
+    }
+</script>
+
 </html>
