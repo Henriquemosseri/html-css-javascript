@@ -33,10 +33,13 @@
             <label for="item-lista">Insira na lista abaixo <input type="text" name="item-lista" id="item-lista"></label>
             <button onclick="criarLista()" class="botoes">criar lista</button>
             <ul id="lista">
-
             </ul>
-
         </section>
+            <div>
+                <p id="testeAPI"></p>
+            </div>
+
+
     </main>
 
     <footer id="footer">
@@ -47,6 +50,7 @@
 </body>
 <script>
     removerItemLista();
+    testeFetch();
     function mudarCor() {
         let textElement = document.getElementById("paragrafo");
         textElement.style.color = "red";
@@ -64,6 +68,17 @@
                 event.target.remove();
             }
         });
+    }
+
+    function testeFetch(){
+        fetch("http://demo8131881.mockable.io/teste")
+        .then(response=> response.json())
+        .then(data=>mostrarDado(data))
+        .catch(error => console.log(error))
+        }
+
+    function mostrarDado(data){
+    document.getElementById("testeAPI").innerText= data.msg;
     }
 </script>
 
