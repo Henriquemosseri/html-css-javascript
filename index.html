@@ -45,6 +45,11 @@
             </form>
         </div>
 
+        <label for="filtro">Filtrar por preço:</label>
+        <select id="filtro" onchange="filtrarProdutos()">
+            <option value="todos">Todos</option>
+            <option value="menor1000">Menores que R$ 1000</option>
+        </select>
         <table>
             <thead>
                 <tr>
@@ -57,8 +62,6 @@
             </tbody>
         </table>
         <button class="botoes" onclick="buscarProdutos()">Carregar Produtos</button>
-
-
     </main>
 
     <footer id="footer">
@@ -103,7 +106,7 @@
 
     function mostrarResposta(data) {
         alert(data.msg);
-        console.log("Resposta do servidor:", data); 
+        console.log("Resposta do servidor:", data);
     }
 
 
@@ -137,10 +140,15 @@
         document.getElementById("testeAPI").innerText = data.msg;
     }
 
+    let listaCompleta = [];
+
     function buscarProdutos() {
         fetch("http://demo8131881.mockable.io/produtos")
             .then(response => response.json())
-            .then(data => preencherTabela(data))
+            .then(data => {
+            listaCompleta = data;
+            filtrarProdutos();
+        })
             .catch(error => console.error("Erro ao buscar os produtos:", error));
     }
 
@@ -159,6 +167,17 @@
         `;
 
             tbody.appendChild(linha);
+        }
+    }
+
+    function filtrarProdutos() {
+        const filtro = document.getElementById("filtro").value;
+
+        if (filtro === "menor1000") {
+            const listaFiltrada = listaCompleta.filter(produto => produto.preco < 1000);
+            preencherTabela(listaFiltrada);
+        } else {
+            preencherTabela(listaCompleta);
         }
     }
 </script>
