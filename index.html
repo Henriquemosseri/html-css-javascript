@@ -9,265 +9,37 @@
 </head>
 
 <body>
+    <div class="container">
+        <h1>Gestão de Produtos</h1>
 
-    <header>
-        <h1>Bem-vindo ao site</h1>
-    </header>
-    <nav>
-        <a href="">link 1</a>
-        <a href="">link 2</a>
-        <a href="">link 3</a>
-    </nav>
-
-
-    <main id="main">
-        <section id="section1">
-            <h2 class="subtitulo">Lorem ipsum dolor sit amet consectetur,</h2>
-            <p id="paragrafo">Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro exercitationem omnis minus
-                obcaecati natus veniam libero perspiciatis quibusdam maxime culpa sed rem aliquam fugit, ut repellendus
-                aliquid! Doloremque nemo minima quia labore, dolore expedita itaque quo doloribus, hic totam laboriosam
-                id, ratione error adipisci cupiditate neque placeat laborum molestiae nihil!</p>
-            <button onclick="mudarCor()" class="botoes"><b> mudar cor</b></button>
-            <br>
-
-            <label for="item-lista">Insira na lista abaixo <input type="text" name="item-lista" id="item-lista"></label>
-            <button onclick="criarLista()" class="botoes">criar lista</button>
-            <ul id="lista">
-            </ul>
-        </section>
-        <div>
-            <p id="testeAPI"></p>
-
-            <form id="cadastroForm">
-                <label for="nome">Digite seu nome: 
-                    <input type="text" id="nome" required>
-                    <span id="erro-nome"></span>
-                </label>
-                
-                <label for="email">Digite seu email: 
-                    <input type="text" id="email" required>
-                    <span id="erro-email" ></span>
-                </label>
-                
-                <button type="submit" class="botoes">Enviar</button>
+        <section id="cadastro">
+            <h2>Cadastrar Novo Produto</h2>
+            <form id="produtoForm">
+                <input type="text" id="nomeProduto" placeholder="Nome do Produto" required>
+                <input type="text" id="marcaProduto" placeholder="Marca" required>
+                <input type="number" id="precoProduto" placeholder="Preço" required>
+                <button type="submit">Cadastrar</button>
             </form>
-        </div>
+        </section>
 
-        <label for="filtro">Filtrar por preço:</label>
-        <select id="filtro" onchange="filtrarProdutos()">
-            <option value="todos">Todos</option>
-            <option value="menor1000">Menores que R$ 1000</option>
-        </select>
-        <table>
-            <thead>
-                <tr>
-                    <th>Nome</th>
-                    <th>Marca</th>
-                    <th>Preço</th>
-                </tr>
-            </thead>
-            <tbody id="tabela-produtos">
-            </tbody>
-        </table>
-        <button class="botoes" onclick="buscarProdutos()">Carregar Produtos</button>
+        <section id="listagem">
+            <h2>Lista de Produtos</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Marca</th>
+                        <th>Preço</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="tabela-produtos"></tbody>
+            </table>
+        </section>
+    </div>
 
-        <h2>Adicionar Produto</h2>
-        <form id="produtoForm">
-            <label>Nome: <input type="text" id="nomeProduto" required></label>
-            <label>Marca: <input type="text" id="marcaProduto" required></label>
-            <label>Preço: <input type="number" id="precoProduto" required></label>
-            <button type="submit" class="botoes">Adicionar Produto</button>
-        </form>
-    </main>
-
-    <footer id="footer">
-        <p>Autor: Henrique Mosseri</p>
-        <p> 2025</p>
-    </footer>
-
+    <script src="script.js"></script>
 </body>
-<script>
-    removerItemLista();
-    testeFetch();
-    
-    document.getElementById("produtoForm").addEventListener("submit", function (event) {
-        event.preventDefault();
-        adicionarProduto();
-    });
 
-    const API_URL = "http://demo8131881.mockable.io/cadastro";
-
-document.getElementById("cadastroForm").addEventListener("submit", function (event) {
-    event.preventDefault();
-    if (validarFormulario()) {
-        enviarDados();
-    }
-});
-
-function validarFormulario() {
-    const nome = document.getElementById("nome").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const erroNome = document.getElementById("erro-nome");
-    const erroEmail = document.getElementById("erro-email");
-
-    let valido = true;
-
-    if (nome === "") {
-        erroNome.textContent = "Nome é obrigatório.";
-        valido = false;
-    } else {
-        erroNome.textContent = "";
-    }
-
-    if (email === "") {
-        erroEmail.textContent = "E-mail é obrigatório.";
-        valido = false;
-    } else {
-        erroEmail.textContent = "";
-    }
-
-    return valido;
-}
-
-function capturarDados() {
-    return {
-        nome: document.getElementById("nome").value,
-        email: document.getElementById("email").value
-    };
-}
-
-async function enviarDados() {
-    const dados = capturarDados();
-
-    try {
-        const response = await fetch(API_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(dados)
-        });
-
-        const data = await response.json();
-        mostrarResposta(data);
-    } catch (error) {
-        console.error("Erro ao enviar dados:", error);
-    }
-}
-
-function mostrarResposta(data) {
-    alert(data.msg);
-    console.log("Resposta do servidor:", data);
-}
-
-    function mudarCor() {
-        let textElement = document.getElementById("paragrafo");
-        textElement.style.color = "red";
-    }
-
-    function criarLista() {
-        let itemLista = document.getElementById("item-lista").value;
-        var item = document.createElement("li");
-        item.append(itemLista);
-        document.getElementById("lista").append(item);
-    }
-    function removerItemLista() {
-        document.getElementById("lista").addEventListener("dblclick", function (event) {
-            if (event.target.tagName === "LI") {
-                event.target.remove();
-            }
-        });
-    }
-
-    function testeFetch() {
-        fetch("http://demo8131881.mockable.io/teste")
-            .then(response => response.json())
-            .then(data => mostrarDado(data))
-            .catch(error => console.log(error))
-    }
-
-    function mostrarDado(data) {
-        document.getElementById("testeAPI").innerText = data.msg;
-    }
-
-    let listaCompleta = [];
-
-    function buscarProdutos() {
-        fetch("http://demo8131881.mockable.io/produtos")
-            .then(response => response.json())
-            .then(data => {
-                listaCompleta = data;
-                filtrarProdutos();
-            })
-            .catch(error => console.error("Erro ao buscar os produtos:", error));
-    }
-
-
-    function adicionarProduto() {
-        const nome = document.getElementById("nomeProduto").value;
-        const marca = document.getElementById("marcaProduto").value;
-        const preco = parseFloat(document.getElementById("precoProduto").value);
-
-        if (!nome || !marca || isNaN(preco)) {
-            alert("Preencha todos os campos corretamente.");
-            return;
-        }
-
-        const novoProduto = { nome, marca, preco };
-        listaCompleta.push(novoProduto);
-        preencherTabela(listaCompleta);
-    }
-
-    function preencherTabela(listaProdutos) {
-        const tbody = document.getElementById("tabela-produtos");
-        tbody.innerHTML = "";
-
-        for (let i = 0; i < listaProdutos.length; i++) {
-            let produto = listaProdutos[i];
-
-            let linha = document.createElement("tr");
-            linha.innerHTML = `
-            <td>${produto.nome}</td>
-            <td>${produto.marca}</td>
-            <td>R$ ${produto.preco.toFixed(2)}</td>
-            <td>
-                <button onclick="editarProduto(${i})">✏️</button>
-                <button onclick="removerProduto(${i})">🗑️</button>
-            </td>
-        `;
-
-            tbody.appendChild(linha);
-        }
-    }
-
-    function editarProduto(index) {
-        const produto = listaCompleta[index];
-        const novoNome = prompt("Novo nome:", produto.nome);
-        const novaMarca = prompt("Nova marca:", produto.marca);
-        const novoPreco = parseFloat(prompt("Novo preço:", produto.preco));
-
-        if (novoNome && novaMarca && !isNaN(novoPreco)) {
-            listaCompleta[index] = { nome: novoNome, marca: novaMarca, preco: novoPreco };
-            preencherTabela(listaCompleta);
-        } else {
-            alert("Dados inválidos.");
-        }
-    }
-
-    function removerProduto(index) {
-        listaCompleta.splice(index, 1);
-        preencherTabela(listaCompleta);
-    }
-
-    function filtrarProdutos() {
-        const filtro = document.getElementById("filtro").value;
-
-        if (filtro === "menor1000") {
-            const listaFiltrada = listaCompleta.filter(produto => produto.preco < 1000);
-            preencherTabela(listaFiltrada);
-        } else {
-            preencherTabela(listaCompleta);
-        }
-    }
-
-</script>
 
 </html>
