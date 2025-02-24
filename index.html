@@ -62,6 +62,14 @@
             </tbody>
         </table>
         <button class="botoes" onclick="buscarProdutos()">Carregar Produtos</button>
+
+        <h2>Adicionar Produto</h2>
+        <form id="produtoForm">
+            <label>Nome: <input type="text" id="nomeProduto" required></label>
+            <label>Marca: <input type="text" id="marcaProduto" required></label>
+            <label>Preço: <input type="number" id="precoProduto" required></label>
+            <button type="submit" class="botoes">Adicionar Produto</button>
+        </form>
     </main>
 
     <footer id="footer">
@@ -73,6 +81,11 @@
 <script>
     removerItemLista();
     testeFetch();
+    document.getElementById("produtoForm").addEventListener("submit", function (event) {
+        event.preventDefault();
+        adicionarProduto();
+    });
+
     const API_URL = "http://demo8131881.mockable.io/cadastro";
 
     document.getElementById("cadastroForm").addEventListener("submit", function (event) {
@@ -146,10 +159,26 @@
         fetch("http://demo8131881.mockable.io/produtos")
             .then(response => response.json())
             .then(data => {
-            listaCompleta = data;
-            filtrarProdutos();
-        })
+                listaCompleta = data;
+                filtrarProdutos();
+            })
             .catch(error => console.error("Erro ao buscar os produtos:", error));
+    }
+
+
+    function adicionarProduto() {
+        const nome = document.getElementById("nomeProduto").value;
+        const marca = document.getElementById("marcaProduto").value;
+        const preco = parseFloat(document.getElementById("precoProduto").value);
+
+        if (!nome || !marca || isNaN(preco)) {
+            alert("Preencha todos os campos corretamente.");
+            return;
+        }
+
+        const novoProduto = { nome, marca, preco };
+        listaCompleta.push(novoProduto);
+        preencherTabela(listaCompleta);
     }
 
     function preencherTabela(listaProdutos) {
@@ -164,10 +193,33 @@
             <td>${produto.nome}</td>
             <td>${produto.marca}</td>
             <td>R$ ${produto.preco.toFixed(2)}</td>
+            <td>
+                <button onclick="editarProduto(${i})">✏️</button>
+                <button onclick="removerProduto(${i})">🗑️</button>
+            </td>
         `;
 
             tbody.appendChild(linha);
         }
+    }
+
+    function editarProduto(index) {
+        const produto = listaCompleta[index];
+        const novoNome = prompt("Novo nome:", produto.nome);
+        const novaMarca = prompt("Nova marca:", produto.marca);
+        const novoPreco = parseFloat(prompt("Novo preço:", produto.preco));
+
+        if (novoNome && novaMarca && !isNaN(novoPreco)) {
+            listaCompleta[index] = { nome: novoNome, marca: novaMarca, preco: novoPreco };
+            preencherTabela(listaCompleta);
+        } else {
+            alert("Dados inválidos.");
+        }
+    }
+
+    function removerProduto(index) {
+        listaCompleta.splice(index, 1);
+        preencherTabela(listaCompleta);
     }
 
     function filtrarProdutos() {
@@ -180,6 +232,7 @@
             preencherTabela(listaCompleta);
         }
     }
+    
 </script>
 
 </html>
