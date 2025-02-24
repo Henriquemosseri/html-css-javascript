@@ -30,10 +30,46 @@ function adicionarProduto() {
 
     const novoProduto = { nome, marca, preco };
 
-    listaCompleta.push(novoProduto);
-    preencherTabela(listaCompleta);
 
-    document.getElementById("produtoForm").reset();
+    fetch("http://demo8131881.mockable.io/cadastro", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(novoProduto) 
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert("Produto adicionado com sucesso!");
+        listaCompleta.push(novoProduto); 
+        preencherTabela(listaCompleta); 
+    })
+    .catch(error => {
+        alert("Erro ao adicionar produto.");
+        console.error("Erro ao adicionar produto:", error);
+    });
+}
+
+function preencherTabela(listaProdutos) {
+    const tbody = document.getElementById("tabela-produtos");
+    tbody.innerHTML = "";
+
+    for (let i = 0; i < listaProdutos.length; i++) {
+        let produto = listaProdutos[i];
+
+        let linha = document.createElement("tr");
+        linha.innerHTML = `
+            <td>${produto.nome}</td>
+            <td>${produto.marca}</td>
+            <td>R$ ${produto.preco.toFixed(2)}</td>
+            <td>
+                <button onclick="editarProduto(${i})">✏️</button>
+                <button onclick="removerProduto(${i})">🗑️</button>
+            </td>
+        `;
+
+        tbody.appendChild(linha);
+    }
 }
 
 function preencherTabela(listaProdutos) {
